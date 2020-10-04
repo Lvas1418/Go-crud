@@ -1,0 +1,4 @@
+
+2020/10/04 14:22:17 db.go:92: 0 <nil>
+2020/10/04 15:45:44 user.go:46: Пакет tables. аФайл user.go. Функция EditSingle. Не удалось прочитать тело запросаinvalid character ',' looking for beginning of value
+2020/10/04 16:01:34 user.go:32: Пакет tables. аФайл user.go. Функция insert. Не удалось прочитать тело запросаinvalid character ',' looking for beginning of value
