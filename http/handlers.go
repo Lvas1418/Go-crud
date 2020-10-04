@@ -3,8 +3,12 @@ package http
 import (
 	"database/sql"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
+	"users/cash"
 	"users/db"
+	"users/logger"
 	"users/tables"
 )
 
@@ -34,6 +38,21 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
+	//first we look in the cache,
+	params := mux.Vars(r)
+	str := params["id"]
+	id, e := strconv.Atoi(str)
+	if e != nil {
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+	result, ok := cash.Find(id)
+	if ok {
+		logger.Log.Println("The user was taken from the cache")
+		json.NewEncoder(w).Encode(result)
+		return
+	}
+	//if the user is not found in the cache, then we go to the database
 	resp, e := db.GetSingleData(user, r)
 	if e == sql.ErrNoRows {
 		http.NotFound(w, r)
@@ -42,6 +61,12 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
+
+	//We launch a goroutine that writes a user to the cache,
+	// falls asleep for 10 seconds, and when it wakes up, it deletes the user from the cache
+	go cash.InsertAndDEl(resp)
+
+	logger.Log.Println("The user was taken from the database")
 	json.NewEncoder(w).Encode(resp)
 }
 

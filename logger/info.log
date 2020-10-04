@@ -1,4 +1,10 @@
-
-2020/10/04 14:22:17 db.go:92: 0 <nil>
-2020/10/04 15:45:44 user.go:46: Пакет tables. аФайл user.go. Функция EditSingle. Не удалось прочитать тело запросаinvalid character ',' looking for beginning of value
-2020/10/04 16:01:34 user.go:32: Пакет tables. аФайл user.go. Функция insert. Не удалось прочитать тело запросаinvalid character ',' looking for beginning of value
+2020/10/04 22:14:05 handlers.go:65: The user was taken from the database
+2020/10/04 22:16:43 handlers.go:65: The user was taken from the database
+2020/10/04 22:16:44 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:45 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:46 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:47 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:48 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:49 handlers.go:65: The user was taken from the database
+2020/10/04 22:16:50 handlers.go:51: The user was taken from the cache
+2020/10/04 22:16:51 handlers.go:51: The user was taken from the cache
