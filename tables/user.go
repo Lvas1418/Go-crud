@@ -33,7 +33,7 @@ func (u *User) InsertSingle(r *http.Request) (string, error) {
 		return "", e
 	}
 
-	str := `INSERT INTO "users" ("Name", "Id", "Age") VALUES (` + "'" + user.Name + "'" + ", " + strconv.Itoa(user.Id) + ", " + strconv.Itoa(user.Age) + `)`
+	.3str := `INSERT INTO "users" ("Name", "Id", "Age") VALUES (` + "'" + user.Name + "'" + ", " + strconv.Itoa(user.Id) + ", " + strconv.Itoa(user.Age) + `)`
 	return str, e
 }
 

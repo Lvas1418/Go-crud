@@ -44,7 +44,7 @@ func GenJwt() (string, error) {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["admin"] = true
 	claims["name"] = "John Doe"
-	claims["exp"] = time.Now().Add(time.Minute * 20).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 40).Unix()
 	tokenString, e := token.SignedString(key)
 	if e != nil {
 		logger.Log.Println("Пакет http, функция GenJwt. Ошибка подписи токена ключем", e.Error())

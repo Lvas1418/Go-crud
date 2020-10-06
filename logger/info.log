@@ -13,3 +13,4 @@
 2020/10/06 22:34:32 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
 2020/10/06 22:35:19 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='y'
 2020/10/06 22:35:19 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
+2020/10/06 22:39:03 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='y'
