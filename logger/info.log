@@ -14,3 +14,15 @@
 2020/10/06 22:35:19 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='y'
 2020/10/06 22:35:19 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
 2020/10/06 22:39:03 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='y'
+2020/10/07 00:41:09 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='q'
+2020/10/07 00:41:09 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: no rows in result set
+2020/10/07 00:42:55 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='q'
+2020/10/07 00:42:55 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: no rows in result set
+2020/10/07 01:04:05 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='q'
+2020/10/07 01:27:01 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='q'
+2020/10/07 01:28:14 db.go:63: Пакет db. func: InsertData. Ошибка создания записи в БД pq: повторяющееся значение ключа нарушает ограничение уникальности "users_pkey"
+2020/10/07 01:30:58 db.go:63: Пакет db. func: InsertData. Ошибка создания записи в БД pq: повторяющееся значение ключа нарушает ограничение уникальности "users_pkey"
+2020/10/07 01:37:32 userHandlers.go:75: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: no rows in result set
+2020/10/07 01:37:39 userHandlers.go:85: The user was taken from the database
+2020/10/07 01:51:18 userHandlers.go:85: The user was taken from the database
+2020/10/07 01:55:01 userHandlers.go:75: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: no rows in result set
