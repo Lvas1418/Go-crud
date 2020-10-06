@@ -3,10 +3,10 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 	"net/http"
 	"users/logger"
 	"users/settings"
-	"users/tables"
 )
 
 var db *sql.DB
@@ -24,49 +24,33 @@ func Connect() error {
 	var e error
 	db, e = sql.Open(settings.Cfg.PgUser, fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", settings.Cfg.PgHost, settings.Cfg.PgPort, settings.Cfg.PgUser, settings.Cfg.PgPass, settings.Cfg.PgDB))
 	if e != nil {
-		logger.Log.Println("Пакет maine. Файл db.go:13 Открыть базы данных не удалось", e.Error())
+		logger.Log.Println("Пакет maine. Файл db.go: Подключиться не удалось", e.Error())
 		return e
 	}
+
 	if e = db.Ping(); e != nil {
-		logger.Log.Println("Пакет maine. Файл db.go:13 Соединение с базой данных не установлено", e.Error())
+		logger.Log.Println("Пакет maine. Файл db.go Соединение с базой данных не установлено", e.Error())
 		return e
 	}
+
 	return nil
 }
 
-func GetAllData(a actions) ([]tables.User, error) {
-	user := tables.User{}
-	var sliceOfRows []tables.User
+func GetAllData(a actions) (*sql.Rows, error) {
 	stringForRequest = a.GetAll()
-
 	rows, e := db.Query(stringForRequest)
 	if e != nil {
 		logger.Log.Println("Пакет db. func: GetAllData. Ошибка чтения строк из базы==", e.Error())
-		return sliceOfRows, e
+		return rows, e
 	}
-
-	for rows.Next() {
-		e = rows.Scan(&user.Name, &user.Id, &user.Age)
-		if e != nil {
-			logger.Log.Println("Пакет db. func: GetAllData. Ошибка сохранения данных из строки базы в объект user", e.Error())
-			return sliceOfRows, e
-		}
-		sliceOfRows = append(sliceOfRows, user)
-	}
-
-	return sliceOfRows, e
+	return rows, e
 }
 
-func GetSingleData(a actions, r *http.Request) (tables.User, error) {
-	user := tables.User{}
+func GetSingleData(a actions, r *http.Request) *sql.Row {
+
 	stringForRequest = a.GetSingle(r)
 	respons := db.QueryRow(stringForRequest)
-
-	e := respons.Scan(&user.Name, &user.Id, &user.Age)
-	if e != nil && e != sql.ErrNoRows {
-		logger.Log.Println("Пакет db. func: GetSingleData. Ошибка при поиске строки в БД", e.Error())
-	}
-	return user, e
+	return respons
 }
 
 func InsertData(a actions, r *http.Request) (int64, error) {

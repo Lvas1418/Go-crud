@@ -1,15 +1,10 @@
 package main
 
 import (
-	_ "github.com/lib/pq"
-
-	//"log"
-	//"time"
+	"fmt"
 	"users/db"
 	"users/http"
 	"users/settings"
-	//"users/tables"
-	//"fmt"
 )
 
 func init() {
@@ -18,10 +13,13 @@ func init() {
 		return
 	}
 	http.InitHttp()
+
 }
 func main() {
 	defer db.Close()
-	e := db.Connect()
+	str, e := http.GenJwt()
+	fmt.Println(str)
+	e = db.Connect()
 	if e != nil {
 		return
 	}

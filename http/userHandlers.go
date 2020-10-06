@@ -18,8 +18,10 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		return
 	}
+	dataUser := tables.User{}
+	var sliceOfRows []tables.User
 
-	resp, e := db.GetAllData(user)
+	rows, e := db.GetAllData(user)
 	if e == sql.ErrNoRows {
 		http.NotFound(w, r)
 		return
@@ -27,16 +29,22 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	for rows.Next() {
+		e = rows.Scan(&dataUser.Id, &dataUser.Name, &dataUser.Age)
+		if e != nil {
+			logger.Log.Println("Пакет db. func: GetAllData. Ошибка сохранения данных из строки базы в объект user", e.Error())
+			return
+		}
+		sliceOfRows = append(sliceOfRows, dataUser)
+	}
+	json.NewEncoder(w).Encode(sliceOfRows)
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		return
 	}
-
-	w.Header().Set("Content-Type", "application/json")
+	dataUser := tables.User{}
 
 	//first we look in the cache,
 	params := mux.Vars(r)
@@ -53,50 +61,53 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//if the user is not found in the cache, then we go to the database
-	resp, e := db.GetSingleData(user, r)
-	if e == sql.ErrNoRows {
+	resp /*, e*/ := db.GetSingleData(user, r)
+	/*if e == sql.ErrNoRows {
 		http.NotFound(w, r)
 		return
 	} else if e != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
-	}
+	}*/
 
+	e = resp.Scan(&dataUser.Id, &dataUser.Name, &dataUser.Age)
+	if e != nil {
+		logger.Log.Println("Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД", e.Error())
+	}
 	//We launch a goroutine that writes a user to the cache,
 	// falls asleep for 10 seconds, and when it wakes up, it deletes the user from the cache
-	go cash.InsertAndDEl(resp)
+	if dataUser.Id == 0 {
+		http.Error(w, http.StatusText(404), 404)
+		return
+	}
+	go cash.InsertAndDEl(dataUser)
 
 	logger.Log.Println("The user was taken from the database")
-	json.NewEncoder(w).Encode(resp)
+	json.NewEncoder(w).Encode(dataUser)
 }
 
 func creatUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 
 	nRows, e := db.InsertData(user, r)
 	if e != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	} else if nRows == 0 {
-		http.NotFound(w, r)
+		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 
-	resp, e := db.GetAllData(user)
-	if e != nil {
-		return
-	}
-	json.NewEncoder(w).Encode(resp)
+	getUsers(w, r)
 }
 
 func updateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "PUT" {
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
+
 	nRows, e := db.EditData(user, r)
 	if e != nil {
 		http.Error(w, http.StatusText(500), 500)
@@ -106,19 +117,14 @@ func updateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, e := db.GetAllData(user)
-	if e != nil {
-		return
-	}
-
-	json.NewEncoder(w).Encode(data)
+	getUsers(w, r)
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "DELETE" {
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
+
 	nRows, e := db.DeleteData(user, r)
 	if e != nil {
 		http.Error(w, http.StatusText(500), 500)
@@ -128,10 +134,5 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, e := db.GetAllData(user)
-	if e != nil {
-		return
-	}
-
-	json.NewEncoder(w).Encode(data)
+	getUsers(w, r)
 }

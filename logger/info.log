@@ -1,10 +1,15 @@
-2020/10/04 22:14:05 handlers.go:65: The user was taken from the database
-2020/10/04 22:16:43 handlers.go:65: The user was taken from the database
-2020/10/04 22:16:44 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:45 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:46 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:47 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:48 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:49 handlers.go:65: The user was taken from the database
-2020/10/04 22:16:50 handlers.go:51: The user was taken from the cache
-2020/10/04 22:16:51 handlers.go:51: The user was taken from the cache
+2020/10/06 21:40:03 db.go:37: Пакет maine. Файл db.go Создать базу данных не удалось pq: ошибка синтаксиса (примерное положение: "NOT")
+2020/10/06 21:45:11 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось pq: ошибка синтаксиса (примерное положение: "NOT")
+2020/10/06 21:47:22 db.go:27: Пакет maine. Файл db.go: Подключиться не удалось sql: unknown driver "postgres" (forgotten import?)
+2020/10/06 21:54:15 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось pq: ошибка синтаксиса (примерное положение: "NOT")
+2020/10/06 22:02:25 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось pq: ошибка синтаксиса (примерное положение: "NOT")
+2020/10/06 22:19:58 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось write tcp [::1]:55490->[::1]:5432: i/o timeout
+2020/10/06 22:21:40 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось write tcp [::1]:55541->[::1]:5432: i/o timeout
+2020/10/06 22:23:22 db.go:34: Пакет maine. Файл db.go Создать базу данных не удалось write tcp [::1]:55686->[::1]:5432: i/o timeout
+2020/10/06 22:25:08 db.go:44: Пакет maine. Файл db.go Выбрать базу данных не удалось pq: ошибка синтаксиса (примерное положение: "USE")
+2020/10/06 22:32:20 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='r'
+2020/10/06 22:32:21 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
+2020/10/06 22:34:32 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='r'
+2020/10/06 22:34:32 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
+2020/10/06 22:35:19 admin.go:19: Request==SELECT * FROM "admin" WHERE "Name"='y'
+2020/10/06 22:35:19 adminHandlers.go:81: Пакет http. func: getUser. Ошибка: не смогли прочитать ответ БД sql: expected 2 destination arguments in Scan, not 3
